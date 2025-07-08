@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
+import {useNavigate} from 'react-router-dom'
+
 
 const Signup = () => {
+
+  const navigate= useNavigate()
+
   const [formData, setFormData] = useState({
+    name:'',
     email: '',
     password: '',
   });
@@ -10,10 +16,28 @@ const Signup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    // You can connect this to backend here
+    try{
+      const res = await fetch('http://localhost:5001/user/signup',{
+        method:'POST',
+        headers:{
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      })
+      const data = await res.json();
+      if(res.ok){
+        setFormData({name:"",email:"", password: ""});
+        navigate("/login")
+      }
+      else{
+        console.log(data);
+      }
+    }
+    catch(error){
+      setmessage("Networkfailed");
+    }
   };
 
   return (
@@ -27,6 +51,20 @@ const Signup = () => {
         </div>
         <h2 className="text-center text-2xl font-bold text-white mb-6">Sign up for an account</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
+              Name
+            </label>
+            <input
+              id="email"
+              name="name"
+              type="text"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-3 py-2 rounded-md bg-[#1E293B] text-white border border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
               Email address
