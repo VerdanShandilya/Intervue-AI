@@ -22,7 +22,7 @@ function authenticatetoken (req,res,next) {
         res.status(401).json({message : "unauthorized token"})
     }
 
-    jwt.verify(token, key, (err,user) =>{
+    jwt.verify(token, process.env.SECRET_KEY, (err,user) =>{
         if(err){
             return res.status(403).json({message : "forbidden"})
         }

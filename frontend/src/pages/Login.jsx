@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 
@@ -85,10 +86,20 @@ const Login = () => {
         </form>
         <p className="mt-6 text-center text-sm text-gray-400">
           Already a member?{' '}
-          <a href="#" className="text-indigo-400 hover:underline">
+          <Link to="/signup" className="text-indigo-400 hover:underline">
             Sign in
-          </a>
+          </Link>
         </p>
+        <div className="flex justify-center">
+          <button
+  type="button"
+  onClick={() => window.location.href = "http://localhost:5001/user/google"}
+  className="w-2/3 max-w-xs mt-4 flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ml-8"
+>
+  <svg className="w-4 h-4" aria-hidden="true" /* ...svg props... */ />
+  Sign up with Google
+</button>
+</div>
       </div>
     </div>
   )
