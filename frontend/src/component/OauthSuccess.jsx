@@ -7,11 +7,9 @@ const OauthSuccess = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
-    console.log("Token received from URL:", token);
 
     if (token) {
       localStorage.setItem("token", token);
-      console.log("Token stored in localStorage. Redirecting to home...");
       navigate("/");
     } else {
       const storedToken = localStorage.getItem("token");

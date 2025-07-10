@@ -5,6 +5,7 @@ require('dotenv').config();
 const user = require("./routes/UserRoutes")
 const session = require('express-session');
 const passport = require('./middleware/Passport');
+const interview = require("./routes/InterviewRoutes")
 
 
 const app =express();
@@ -26,6 +27,7 @@ app.get('/',(req,res) =>{
 app.use(passport.initialize());
 
 app.use("/user",user);
+app.use("/user",interview)
 
 app.listen(PORT, () =>{
     console.log(`Server is running on port ${PORT}`);

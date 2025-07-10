@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const token =localStorage.getItem("token")
+  const navigate= useNavigate();
+    const handlelogout = () =>{
+      localStorage.removeItem("token");
+      navigate("/login")
+    }
   return (
     <>
       <nav className="block py-4 w-full max-w-full rounded-none px-4 bg-transparent text-white shadow-none absolute z-50 border-0">
@@ -16,9 +23,13 @@ const Navbar = () => {
           <ul className="items-center hidden gap-6 ml-10 lg:flex">
             {/* ...desktop links... */}
             <li>
-              <a href="#" className="antialiased font-sans text-base leading-relaxed text-inherit flex items-center gap-2 font-medium">
-                Pages
-              </a>
+              {token? (<Link to="/interview" className="antialiased font-sans text-base leading-relaxed text-inherit flex items-center gap-2 font-medium">
+                  New Interview
+                </Link>):(
+                  <Link to="/login" className="antialiased font-sans text-base leading-relaxed text-inherit flex items-center gap-2 font-medium">
+                  New Interview
+                </Link>
+                )}
             </li>
             <li>
               <a href="#" className="antialiased font-sans text-base leading-relaxed text-inherit flex items-center gap-2 font-medium">
@@ -37,6 +48,14 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="items-center hidden gap-4 lg:flex">
+            {token? (
+              <div className="items-center hidden gap-4 lg:flex">
+              <button className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white hover:bg-white/10 active:bg-white/30" type="button" onClick={handlelogout}>
+                Logout
+              </button>
+              </div>
+            ):(
+              <div className="items-center hidden gap-4 lg:flex">
             <Link to="/login">
               <button className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white hover:bg-white/10 active:bg-white/30" type="button">
                 Log in
@@ -47,6 +66,8 @@ const Navbar = () => {
                 Sign In
               </button>
             </Link>
+            </div>
+            )}
           </div>
           <button
             className="relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20 inline-block ml-auto lg:hidden"
@@ -70,9 +91,9 @@ const Navbar = () => {
           <div className="container px-6 py-5 mx-auto mt-4 bg-white rounded-lg">
             <ul className="flex flex-col gap-4 text-gray-900">
               <li>
-                <a href="#" className="antialiased font-sans text-base leading-relaxed text-inherit flex items-center gap-2 font-medium">
-                  Pages
-                </a>
+                <Link to="/interview" className="antialiased font-sans text-base leading-relaxed text-inherit flex items-center gap-2 font-medium">
+                New Interview
+              </Link>
               </li>
               <li>
                 <a href="#" className="antialiased font-sans text-base leading-relaxed text-inherit flex items-center gap-2 font-medium">
@@ -90,7 +111,12 @@ const Navbar = () => {
                 </a>
               </li>
             </ul>
-            <div className="flex items-center gap-4 mt-6 mb-4">
+            {token?(<div className="flex items-center gap-4 mt-6 mb-4">
+                <button className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20" type="button"  onClick={handlelogout}>
+                  Logout
+                </button>
+            </div>):(
+              <div className="flex items-center gap-4 mt-6 mb-4">
               <Link to="/login">
                 <button className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20" type="button">
                   Log in
@@ -102,6 +128,7 @@ const Navbar = () => {
                 </button>
               </Link>
             </div>
+            )}
           </div>
         </div>
       </nav>
